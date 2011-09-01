@@ -1,0 +1,70 @@
+About GodHead-Lips
+==================
+GodHead is a cerebral, first person roleplaying game
+This is an implementation of the lore, and hopefully the gameplay, in the Lips of Suna Engine
+
+Website: http://dungeonhack.sourceforge.net/
+Forums: http://dungeonhack.sourceforge.net/forums/
+
+Running
+=======
+
+You need the Lips of Suna graphics+sound files to run the game currently. Download Lips (any recent release will do), and copy
+data/lipsofsuna/graphics and data/lipsofsuna/sounds to GodHead-Lips/data/godhead/graphics and sounds respectively
+
+
+About Lips of Suna
+==================
+
+Lips of Suna is an online dungeon crawl game.
+
+Website: http://lipsofsuna.org/
+Forums: http://forum.freegamedev.net/viewforum.php?f=25
+Wiki: http://sourceforge.net/apps/trac/lipsofsuna/wiki/
+
+
+System requirements
+===================
+
+ * Recommended: Video card that supports OpenGL 3.2 or newer.
+ * Minimum: Video card that supports OpenGL 2.1.
+
+To play the game in the quality graphics mode, your video card needs to
+support OpenGL 3.2 or newer. To play in the limited graphics mode, at least
+OpenGL 2.1 needs to be supported.
+
+
+Dependencies
+============
+
+ * Python            http://www.python.org/
+ * Bullet  >= 2.77   http://www.bulletphysics.com/
+ * ENet    >= 1.2.2  http://enet.bespin.org/
+ * Lua     >= 5.1    http://www.lua.org/
+ * SQLite  >= 3.6    http://www.sqlite.org/
+ * SDL     >= 1.2    http://libsdl.org/
+ * SDL_ttf >= 2.0    http://www.libsdl.org/projects/SDL_ttf
+ * GLEW    >= 1.5.5  http://glew.sourceforge.net/
+ * OpenGL  >= 2.1    http://www.opengl.org/
+ * OpenAL            http://www.openal.org/
+ * libogg            http://xiph.org/downloads/
+ * libvorbis         http://xiph.org/downloads/
+ * libflac           http://flac.sourceforge.net/
+
+
+Compiling
+=========
+
+After installing the dependencies, run the following command in the directory
+where this README file is located:
+
+./waf configure build install
+
+
+Running
+=======
+
+After compiling the game, run the following command in the directory where
+this README file is located:
+
+./lipsofsuna

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Lips of Suna
+Type=Application
+Exec=lipsofsuna
+Icon=lipsofsuna
+Comment=A tongue-in-cheek dungeon crawl game
+Terminal=false
+StartupNotify=true
+Categories=Game;RolePlaying;

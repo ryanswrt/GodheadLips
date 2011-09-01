@@ -1,0 +1,85 @@
+import os
+import string
+import Options
+import Utils
+
+APPNAME='lipsofsuna-ddstool'
+VERSION='0.0.3'
+
+srcdir = '.'
+blddir = 'build'
+
+def set_options(ctx):
+	ctx.tool_options('compiler_cc')
+	ctx.tool_options('compiler_cxx')
+	ctx.add_option('--adddeps', action='store', default=None, help='extra path to dependencies')
+
+def configure(ctx):
+
+	# Directories
+	ctx.env.CPPPATH_CORE = ['.', '../..']
+	ctx.env.CPPFLAGS_CORE = ['-g', '-Wall', '-O0', '-DHAVE_CONFIG_H']
+	ctx.env.LIBPATH_CORE = []
+	ctx.env.LINKFLAGS_CORE = ['-g']
+	if Options.options.adddeps:
+		binpaths = []
+		pkgpaths = []
+		for dep in string.split(Options.options.adddeps, ':'):
+			ctx.env.CPPPATH_CORE.append(os.path.join(dep, 'include'))
+			ctx.env.LIBPATH_CORE.append(os.path.join(dep, 'lib'))
+			binpaths.append(os.path.join(dep, 'bin'))
+			pkgpaths.append(os.path.join(dep, 'lib', 'pkgconfig'))
+		if 'PATH' in os.environ and os.environ['PATH'] != '':
+			binpaths.append(os.environ['PATH'])
+		os.environ['PATH'] = string.join(binpaths, ':')
+		if 'PKG_CONFIG_PATH' in os.environ and os.environ['PKG_CONFIG_PATH'] != '':
+			pkgpaths.append(os.environ['PKG_CONFIG_PATH'])
+		os.environ['PKG_CONFIG_PATH'] = string.join(pkgpaths, ':')
+	ctx.env.CPPPATH_EXTENSION = ctx.env.CPPPATH_CORE
+	ctx.env.CPPFLAGS_EXTENSION = list(ctx.env.CPPFLAGS_CORE)
+	ctx.env.CPPFLAGS_EXTENSION.append('-DDLL_EXPORT')
+	ctx.env.LIBPATH_EXTENSION = ctx.env.LIBPATH_CORE
+	ctx.env.LINKFLAGS_EXTENSION = ['-g']
+	ctx.env.CPPPATH_TEST = []
+	ctx.env.LIBPATH_TEST = []
+
+	# Tools
+	ctx.check_tool('compiler_cc')
+	ctx.check_tool('compiler_cxx')
+
+	# Dependencies
+	ctx.check(header_name='inttypes.h', define_name='HAVE_INTTYPES_H')
+	ctx.check(header_name='stdint.h', define_name='HAVE_STDINT_H')
+	ctx.check(header_name='sys/mman.h', define_name='HAVE_SYS_MMAN_H')
+	ctx.check(header_name='sys/stat.h', define_name='HAVE_SYS_STAT_H')
+	ctx.check(header_name='sys/time.h', define_name='HAVE_SYS_TIME_H')
+	ctx.check(header_name='sys/wait.h', define_name='HAVE_SYS_WAIT_H')
+	ctx.check(header_name='time.h', define_name='HAVE_TIME_H')
+	ctx.check(header_name='unistd.h', define_name='HAVE_UNISTD_H')
+	ctx.check(header_name='windows.h', define_name='HAVE_WINDOWS_H')
+	ctx.check_cc(lib='m', uselib_store='CORE')
+	ctx.check_cc(lib='pthread', uselib_store='THREAD')
+
+	# PNG
+	if not ctx.check_cfg(package='libpng12', atleast_version='1.2.0', args='--cflags --libs', uselib_store="PNG") and \
+	   not ctx.check_cfg(package='libpng14', atleast_version='1.2.0', args='--cflags --libs', uselib_store="PNG") and \
+	   not ctx.check_cfg(package='libpng', atleast_version='1.2.0', args='--cflags --libs', uselib_store="PNG"):
+		ctx.check_cxx(header_name='png.h', mandatory=True, uselib='CORE TEST', uselib_store='PNG')
+		if not ctx.check_cxx(lib='png12', mandatory=True, uselib='CORE TEST', uselib_store='PNG') and \
+		   not ctx.check_cxx(lib='png15', mandatory=True, uselib='CORE TEST', uselib_store='PNG'):
+			ctx.check_cxx(lib='png', mandatory=True, uselib='CORE TEST', uselib_store='PNG')
+
+	# squish
+	ctx.check_cxx(header_name='squish.h', mandatory=True, uselib='CORE TEST', uselib_store='SQUISH')
+	ctx.check_cxx(lib='squish', mandatory=True, uselib='CORE TEST', uselib_store='SQUISH')
+
+	# Defines
+	ctx.define('LI_ENABLE_ERROR', 1)
+	ctx.write_config_header('config.h')
+
+def build(ctx):
+	ctx.new_task_gen(
+		features = 'cc cxx cprogram',
+		source = 'ddstool-compress.cpp ddstool-image.c ddstool-main.c ../system/system-error.c ../system/system-memory.c ../system/system-endian.c',
+		target = 'lipsofsuna-ddstool',
+		uselib = 'CORE PNG SQUISH THREAD')
