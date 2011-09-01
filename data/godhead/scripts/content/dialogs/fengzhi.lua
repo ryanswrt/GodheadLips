@@ -1,4 +1,4 @@
-Dialogspec{name="Fengzhi", unique = true,
+Dialogspec{name="fengzhi", unique = true,
 	--Every thing the player says is a choice. It can branch conversations
 	--Notice, the Choice isn't closed immediately, like {choice,blah} but continues with a comma
 	--This means, everything until the choice is closed with a }, is one dialog branch

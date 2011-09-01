@@ -1,13 +1,13 @@
 require "content/species"
 
 Species{
-	name = "Agathe",
+	name = "Fengzhi",
 	base = "aer",
-	dialog = "agathe",
-	marker = "agathe",
+	dialog = "fengzhi",
+	marker = "fengzhi",
 	ai_enable_combat = false,
 	ai_enable_wander = false,
-	factions = {"silverspring"},
+	factions = {"good"},
 	hair_style = {"hair1",0,255,192},
 	inventory_items = {"dress"}}
 
