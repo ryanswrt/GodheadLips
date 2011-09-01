@@ -127,7 +127,7 @@ static void private_worker_thread (
 		{
 			lisys_error_set (EINVAL, "the game has frozen");
 			lisys_error_report ();
-			abort();
+			/*abort();*/
 		}
 		lisys_usleep (50000);
 	}

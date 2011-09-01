@@ -13,5 +13,5 @@ if [ -e ./data/lipsofsuna/scripts/content/patterns/$@.lua ]; then
   echo "require \"content/patterns/$@\"" >> ./data/lipsofsuna/scripts/content/patterns.lua
 fi
 
-./lipsofsuna lipsofsuna -E $@ 
+./godheadlips godhead -E $@ 
      
