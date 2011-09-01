@@ -14,7 +14,7 @@ Config.new = function(clss)
 	self.server_port = 10101
 	-- Get the spawn point.
 	print("setting spawn point")
-	local reg = Regionspec:find{name = "Giant Shaft"}
+	local reg = Regionspec:find{name = "Ruined Port"}
 	Config.spawn_point = reg.spawn_point_world
 	-- Load configuration.
 	self.config = ConfigFile{name = "server.cfg"}

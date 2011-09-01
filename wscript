@@ -3,8 +3,8 @@ import string
 import Options
 import Utils
 
-APPNAME='lipsofsuna'
-VERSION='0.5.0'
+APPNAME='godheadlips'
+VERSION='0.0.1'
 
 top = '.'
 out = '.build'
@@ -269,7 +269,7 @@ def build(ctx):
 	# Target executable.
 	ctx.new_task_gen(
 		features = 'c cxx cprogram',
-		target = 'lipsofsuna',
+		target = 'godheadlips',
 		install_path = '${BINDIR}',
 		add_objects = objs,
 		use = libs)

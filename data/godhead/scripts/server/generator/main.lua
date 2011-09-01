@@ -21,6 +21,7 @@ Generator.Main.generate = function(self, sector)
 	local pos = Generator.inst.inst:get_sector_offset(sector)
 	local t = self:get_sector(pos, size)
 	local g = Generator[t]
+	if pos.y > 1007 then return end
 	if not g then
 		Voxel:fill_region{point = pos, size = size, tile = 0}
 	else
