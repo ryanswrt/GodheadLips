@@ -294,7 +294,7 @@ def build(ctx):
 		ctx.install_files(ctx.env.TOOLDIR, ['tool/lipsofsuna_export.py'])
 		start_dir = ctx.path.find_dir('data')
 		ctx.install_files('${DATADIR}', start_dir.ant_glob('**/*.*'), cwd=start_dir, relative_trick=True)
-		ctx.install_files('${APPDIR}', ['misc/lipsofsuna.desktop'])
+		ctx.install_files('${APPDIR}', ['misc/godheadlips.desktop'])
 		ctx.install_files('${ICONDIR}', ['misc/lipsofsuna.png', 'misc/lipsofsuna.svg'])
 
 def dist(ctx):
