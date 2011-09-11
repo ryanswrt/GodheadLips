@@ -207,3 +207,10 @@ Obstaclespec{
 	categories = {"prop"},
 	health = 200,
 	interactive = true}
+
+Obstaclespec{
+	name = "sky",
+	model = "dome",
+	categories = {"prop"},
+	health = 200,
+	interactive = true}
