@@ -70,7 +70,8 @@ Program.profiling = {}
 -- Main loop.
 while not Program.quit do
 	-- Update program state.
-	Program:watchdog_start(3)
+	--FIXME: watchdog needs to be re-enabled once its fixed
+	--Program:watchdog_start(3)
 	local t1 = Program.time
 	Program:update()
 	local t2 = Program.time
