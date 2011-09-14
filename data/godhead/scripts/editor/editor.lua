@@ -33,15 +33,19 @@ Editor.new = function(clss)
 	self.group_map:set_child{col = 2, row = 2, widget = self.button_map}
 	-- Item selector.
 	local items = {}
-	for k in pairs(Itemspec.dict_name) do table.insert(items, k) end
+	for k in pairs(Itemspec.dict_name) do table.insert(items, k) end	
 	table.sort(items)
+	
+	
 	self.combo_items = Widgets.ComboBox(items)
 	self.combo_items:activate{index = 1, pressed = false}
 	self.button_items = Widgets.Button{text = "Add", pressed = function() self.mode = "add item" end}
 	self.group_items = Widget{cols = 2, rows = 1}
 	self.group_items:set_expand{col = 1}
+	self.combo_items = makeGridSelect(items)
 	self.group_items:set_child{col = 1, row = 1, widget = self.combo_items}
 	self.group_items:set_child{col = 2, row = 1, widget = self.button_items}
+	
 	-- Obstacle selector.
 	local obstacles = {}
 	for k in pairs(Obstaclespec.dict_name) do table.insert(obstacles, k) end
@@ -598,6 +602,46 @@ Editor.update_rect_select = function(self)
 			end
 		end
 	end
+end
+
+function makeGridSelect(items)
+		-- Crafting actions.
+		local pressed = function(w)
+			if not w.enabled then return end
+			Network:send{packet = Packet(packets.CRAFTING, "uint32", w.id, "string", w.text)}
+		end
+		local scrolled = function(w, args)
+			crafting:scrolled(args)
+		end
+		-- Build the crafting item buttons.
+		craftable = {}
+		for k,v in ipairs(items) do
+			local spec = Itemspec:find{name = v}
+			--if Crafting:can_craft({spec=spec}) then print("can") end
+			local widget = Widgets.ItemButton{enabled = false, id = id,
+				index = k, icon = spec and spec.icon, spec = spec, text = v,
+				pressed = pressed, scrolled = scrolled}
+			table.insert(craftable, widget)
+		end
+		-- Pack the crafting list.
+		crafting = Widgets.List()
+		local col = 1
+		local row = Widget{cols = 8, rows = 1, spacings = {0,0}}
+		for k,v in ipairs(craftable) do
+			row:set_child(col, 1, v)
+			if col == row.cols then
+				crafting:append{widget = row}
+				row = Widget{cols = row.cols, rows = 1, spacings = {0,0}}
+				col = 1
+			else
+				col = col + 1
+			end
+		end
+		if row.cols > 0 then
+			crafting:append{widget = row}
+		end
+		-- Add the list to the container widget.
+		return crafting
 end
 
 function deepcopy(object)
