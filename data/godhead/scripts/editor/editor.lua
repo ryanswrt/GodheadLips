@@ -36,13 +36,13 @@ Editor.new = function(clss)
 	for k in pairs(Itemspec.dict_name) do table.insert(items, k) end	
 	table.sort(items)
 	
-	
+	self.itemselected=""
 	self.combo_items = Widgets.ComboBox(items)
 	self.combo_items:activate{index = 1, pressed = false}
 	self.button_items = Widgets.Button{text = "Add", pressed = function() self.mode = "add item" end}
 	self.group_items = Widget{cols = 2, rows = 1}
 	self.group_items:set_expand{col = 1}
-	self.combo_items = makeGridSelect(items)
+	self.combo_items = makeGridSelect(self,items)
 	self.group_items:set_child{col = 1, row = 1, widget = self.combo_items}
 	self.group_items:set_child{col = 2, row = 1, widget = self.button_items}
 	
@@ -281,7 +281,8 @@ Editor.pressed = function(self, args)
 	if args.button ~= 1 then return end
 	self.entry_map.text = self.combo_maps.text
 	if self.mode == "add item" then
-		local spec = Itemspec:find{name = self.combo_items.text}
+		local spec = Itemspec:find{name = self.itemselected}
+		print(self.combo_items.craftable)
 		EditorObject{position = point, realized = true, spec = spec}
 	elseif self.mode == "add obstacle" then
 		local spec = Obstaclespec:find{name = self.combo_obstacles.text}
@@ -604,11 +605,10 @@ Editor.update_rect_select = function(self)
 	end
 end
 
-function makeGridSelect(items)
+function makeGridSelect(parent,items)
 		-- Crafting actions.
 		local pressed = function(w)
-			if not w.enabled then return end
-			Network:send{packet = Packet(packets.CRAFTING, "uint32", w.id, "string", w.text)}
+			parent.itemselected=w.text
 		end
 		local scrolled = function(w, args)
 			crafting:scrolled(args)
@@ -618,7 +618,7 @@ function makeGridSelect(items)
 		for k,v in ipairs(items) do
 			local spec = Itemspec:find{name = v}
 			--if Crafting:can_craft({spec=spec}) then print("can") end
-			local widget = Widgets.ItemButton{enabled = false, id = id,
+			local widget = Widgets.ItemButton{enabled = true, id = id,
 				index = k, icon = spec and spec.icon, spec = spec, text = v,
 				pressed = pressed, scrolled = scrolled}
 			table.insert(craftable, widget)
