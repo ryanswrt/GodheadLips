@@ -98,6 +98,10 @@ Editor.new = function(clss)
 	self.scene.pressed = function(w, args) self:pressed(args) end
 	self.scene:set_expand{col = 2, row = 2}
 	self.scene:set_child{col = 1, row = 1, widget = self.group}
+	self.label_hint = Widgets.Label{halign = 0.1, valign = 0.1, font = "medium"}
+	self.label_hint.text = [[Hit ESC to start editing
+]]
+	self.scene:set_child(2, 1, self.label_hint)
 	return self
 end
 
