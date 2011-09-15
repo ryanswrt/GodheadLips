@@ -148,6 +148,19 @@ Species{
 	name = "aer-player",
 	base = "aer",
 	ai_enabled = false,
+	models = {
+		skeleton = "aer1",
+		arms = "aerarm1",
+		eyes = "aereye1",
+		head = "aerhead1",
+		hands = "aerhand1",
+		feet = "aerfoot1",
+		legs = "aerleg1",
+		lower = "aerlower1",
+		lower_safe = "aerbloomers1",
+		upper = "aerupper1",
+		sky= "dome",
+		upper_safe = "aerbloomerstop1"},
 	inventory_items = {"torch", "workbench", "dress", "leather leggings"}}
 
 

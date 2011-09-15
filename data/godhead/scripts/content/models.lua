@@ -6,3 +6,4 @@ for k,v in pairs({"aerarm1", "aerarmplate1", "aerbra1", "aerchinadress1", "aerey
 end
 Modelspec{name = "bloodworm2", replace_shaders = {default = "animdiff", glass = "animslime", normalmap = "animdiffnorm"}}
 Modelspec{name = "slime2", replace_shaders = {default = "animdiff", glass = "animslime", normalmap = "animdiffnorm"}}
+Modelspec{name = "dome", replace_shaders = {default = "nolitdiff", glass = "animslime", normalmap = "animdiffnorm"}}
