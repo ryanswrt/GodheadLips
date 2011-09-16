@@ -1,11 +1,8 @@
 Views.Chargen = Class(Widgets.Scene)
 Views.Chargen.class_name = "Views.Chargen"
 Views.Chargen.list_races = {
-	{"Aer", "aer"},
-	{"Android", "android"},
-	{"Devora", "devora"},
-	{"Kraken", "kraken"},
-	{"Wyrm", "wyrm"}}
+	{"Aer", "aer"}
+}
 
 -- Set to true to dump the settings to the console in a copiable form.
 Views.Chargen.dump_presets = false
