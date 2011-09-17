@@ -159,7 +159,6 @@ Species{
 		lower = "aerlower1",
 		lower_safe = "aerbloomers1",
 		upper = "aerupper1",
-		sky= "dome",
 		upper_safe = "aerbloomerstop1"},
 	inventory_items = {"torch", "workbench", "dress", "leather leggings"}}
 

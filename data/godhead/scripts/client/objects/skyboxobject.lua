@@ -1,23 +1,13 @@
-Skybox.enable = function(clss, name)
-	if not Player.object then return end
-	clss:enable_object(name, Player.object)
-end
-
-Skybox.enable_object = function(clss, name, object, node)
+Player.enable_skybox = function(clss, name)
+	if not clss.object then return end
     -- Find the skybox model.
 	local box = Model:find_or_load{file = name}
 	if not box then return end
-	-- Find the node.
-	local p
-	local n = node
-	if n then
-        p = object:find_node{name = n}
-    end
+    print("Dome model loaded")
 	-- Create the effect object.
 	SkyboxObject{
 		model = box.model,
-		object = object,
-		node = p and n,
+		object = clss.object,
 		sound = box.sound,
 		sound_pitch = box.sound_pitch,
 		sound_positional = box.sound_positional,
@@ -32,7 +22,6 @@ SkyboxObject = Class(Object)
 -- @param clss SkyboxObject class.
 -- @param args Arguments.<ul>
 --   <li>model: Model name.</li>
---   <li>node: Parent node or nil.</li>
 --   <li>object: Parent object or nil.</li>
 --   <li>position: Position in world space.</li>
 --   <li>sound: Sound effect name.</li>
@@ -42,7 +31,6 @@ SkyboxObject = Class(Object)
 -- @return Object.
 SkyboxObject.new = function(clss, args)
 	local parent = args.object
-	local node = args.node
 	-- Attach a model.
 	local self = Object.new(clss, args)
 	if Object.particle_animation then
@@ -62,12 +50,8 @@ SkyboxObject.new = function(clss, args)
 	end
 	-- Copy parent transformation.
 	if parent then
-		local p = node and parent:find_node{name = node}
-		if p then
-			self.position = parent.position + parent.rotation * p
-		else
-			self.position = parent.position + self.position
-		end
+        print("Dome bound to player")
+        self.position = parent.position + self.position
 	end
 	-- Update in a thread until the skybox is unloaded.
 	Coroutine(function()
@@ -75,12 +59,7 @@ SkyboxObject.new = function(clss, args)
 		while (not parent or parent.realized) do
 			local secs = coroutine.yield()
 			if parent then
-				local p = node and parent:find_node{name = node}
-				if p then
-					self.position = parent.position + parent.rotation * p
-				else
-					self.position = parent.position + moved
-				end
+                self.position = parent.position + moved
 			end
 		end
 		self.realized = false
