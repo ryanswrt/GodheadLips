@@ -4,24 +4,24 @@ Skybox.enable = function(clss, name)
 end
 
 Skybox.enable_object = function(clss, name, object, node)
-	-- Find the effect.
-	local effect = Effect:find{name = name}
-	if not effect then return end
+    -- Find the skybox model.
+	local box = Model:find_or_load{file = name}
+	if not box then return end
 	-- Find the node.
 	local p
-	local n = node or effect.node
-	if n then p = object:find_node{name = n} end
+	local n = node
+	if n then
+        p = object:find_node{name = n}
+    end
 	-- Create the effect object.
 	SkyboxObject{
-		model = effect.model,
+		model = box.model,
 		object = object,
 		node = p and n,
-		rotation_inherit = (effect.rotation ~= false),
-		sound = effect.sound,
-		sound_delay = effect.sound_delay,
-		sound_pitch = effect.sound_pitch,
-		sound_positional = effect.sound_positional,
-		sound_volume = effect.sound_volume,
+		sound = box.sound,
+		sound_pitch = box.sound_pitch,
+		sound_positional = box.sound_positional,
+		sound_volume = box.sound_volume,
 		realized = true}
 end
 
@@ -31,11 +31,10 @@ SkyboxObject = Class(Object)
 --- Creates a new Skybox.
 -- @param clss SkyboxObject class.
 -- @param args Arguments.<ul>
---   <li>model: Particle effect name.</li>
+--   <li>model: Model name.</li>
 --   <li>node: Parent node or nil.</li>
 --   <li>object: Parent object or nil.</li>
 --   <li>position: Position in world space.</li>
---   <li>rotation_inherit: True to inherit rotation from the parent object.</li>
 --   <li>sound: Sound effect name.</li>
 --   <li>sound_delay: Sound delay in seconds.</li>
 --   <li>sound_pitch: Sound effect pitch range.</li>
@@ -44,8 +43,7 @@ SkyboxObject = Class(Object)
 SkyboxObject.new = function(clss, args)
 	local parent = args.object
 	local node = args.node
-	local rotate = args.rotation_inherit
-	-- Attach a model effect.
+	-- Attach a model.
 	local self = Object.new(clss, args)
 	if Object.particle_animation then
 		self:particle_animation{loop = true}
@@ -67,29 +65,22 @@ SkyboxObject.new = function(clss, args)
 		local p = node and parent:find_node{name = node}
 		if p then
 			self.position = parent.position + parent.rotation * p
-			if rotate then self.rotation = parent.rotation end
 		else
 			self.position = parent.position + self.position
-			if rotate then self.rotation = parent.rotation end
 		end
 	end
-	-- Update in a thread until the effect ends.
+	-- Update in a thread until the skybox is unloaded.
 	Coroutine(function()
 		local moved = parent and (self.position - parent.position) or self.position
 		while (not parent or parent.realized) do
 			local secs = coroutine.yield()
-			moved = moved + velocity * secs
 			if parent then
 				local p = node and parent:find_node{name = node}
 				if p then
 					self.position = parent.position + parent.rotation * p
-					if rotate then self.rotation = parent.rotation end
 				else
 					self.position = parent.position + moved
-					if rotate then self.rotation = parent.rotation end
 				end
-			elseif args.velocity then
-				self.position = moved
 			end
 		end
 		self.realized = false
