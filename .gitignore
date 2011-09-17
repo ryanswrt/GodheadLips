@@ -1,4 +1,7 @@
 .waf-1.6.0-*
 .build
 .lock-wafbuild
+/data/godhead/graphics/
+/data/godhead/sounds/
+/data/godhead/import/
 *~
