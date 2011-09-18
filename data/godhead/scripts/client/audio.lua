@@ -5,15 +5,15 @@ Sound.music_mode = "menu"
 -- @param mode Music mode. ("boss"/"char"/"game"/"menu")
 Sound.switch_music_track = function(clss, mode)
 	local modes = {
-		boss = {"fairytale7", "fairytale9"},
-		char = {"fairytale2", "fairytale10", "fairytale8"},
-		game = {"fairytale1", "fairytale3", "fairytale4", "fairytale5",
-		        "fairytale6", "fairytale11", "fairytale12", "fairytale13"},
-		intro = {"07 - Clouded"},
-		menu = {"clouded1"}};
+		boss = {"Spiderbite_Lucidity", "Pits"},
+		char = {"Arena", "Bad_Foresense"},
+		game = {"Solitude", "Shadows", "Stressed", "Townside_Gloom",
+		        "Clouded", "Feudal", "Marketeer"},
+		intro = {"Poet's_Lamentation"},
+		menu = {"Poet's_Lamentation"}};
 	if mode then clss.music_mode = mode end
 	local tracks = modes[clss.music_mode];
-	clss.music_fading = 2.0
+	clss.music_fading = 1.5
 	clss.music_looping = (#tracks > 1)
 	clss.music_volume = Client.views.options.music_volume
 	clss.music = tracks[math.random(1, #tracks)]
