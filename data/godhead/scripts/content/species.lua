@@ -160,7 +160,7 @@ Species{
 		lower_safe = "aerbloomers1",
 		upper = "aerupper1",
 		upper_safe = "aerbloomerstop1"},
-	inventory_items = {"torch", "workbench", "dress", "leather leggings"}}
+	inventory_items = {"torch", "workbench", "iron breastplate", "iron greaves"}}
 
 
 ------------------------------------------------------------------------------
