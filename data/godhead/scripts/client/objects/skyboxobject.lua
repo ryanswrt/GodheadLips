@@ -4,9 +4,11 @@ Player.enable_skybox = function(clss, name)
 	local box = Model:find_or_load{file = name}
 	if not box then return end
     print("Dome model loaded")
+    --print(box)
+    --for i, v in ipairs(box) do print(i,v) end
 	-- Create the effect object.
 	SkyboxObject{
-		model = box.model,
+		model = box,
 		object = clss.object,
 		sound = box.sound,
 		sound_pitch = box.sound_pitch,
@@ -30,6 +32,7 @@ SkyboxObject = Class(Object)
 --   <li>sound_positional: False to make the sound non-positional.</li>
 -- @return Object.
 SkyboxObject.new = function(clss, args)
+	for i,v in pairs(args) do print(i,v) end
 	local parent = args.object
 	-- Attach a model.
 	local self = Object.new(clss, args)
@@ -64,5 +67,8 @@ SkyboxObject.new = function(clss, args)
 		end
 		self.realized = false
 	end)
+	self.model = args.model
+	print(clss.model)
+	self.model:add_material{cull = false, shader = "nolitdiff"}
 	return self
 end
