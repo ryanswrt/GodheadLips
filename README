@@ -10,7 +10,10 @@ Running
 =======
 
 You need the Lips of Suna graphics+sound files to run the game currently. Download Lips (any recent release will do), and copy
-data/lipsofsuna/graphics and data/lipsofsuna/sounds to GodHead-Lips/data/godhead/graphics and sounds respectively
+data/lipsofsuna/graphics and data/lipsofsuna/sounds to GodHead-Lips/data/godhead/graphics and /sounds respectively.
+The latest executable requires you follow instructions below on installing the dependencies and compile the source.
+A less up-to-date Windows executable and .dll files can be downloaded from the below URL; they go in Godhead-Lips/
+http://www.meuhminator.fr/Godhead/releases/index.html
 
 
 About Lips of Suna
