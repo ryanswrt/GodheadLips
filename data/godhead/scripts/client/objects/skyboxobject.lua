@@ -34,6 +34,8 @@ SkyboxObject.new = function(clss, args)
 	if Object.particle_animation then
 		self:particle_animation{loop = true}
 	end
+	self.model = args.model
+	self.model:add_material{cull = false, shader = "nolitdiff"}
 	-- Attach a sound effect.
 	if args.sound then
 		local volume = (args.sound_volume or 1) * Client.views.options.sound_volume
@@ -61,7 +63,5 @@ SkyboxObject.new = function(clss, args)
 		end
 		self.realized = false
 	end)
-	self.model = args.model
-	self.model:add_material{cull = false, shader = "nolitdiff"}
 	return self
 end
