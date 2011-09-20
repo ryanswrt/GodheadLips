@@ -58,7 +58,7 @@ LIExtModule* liext_heightmap_new (
 	self->program = program;
 
     /* Allocate paths */
-    self->paths = lipth_paths_new (NULL, LIEXT_SCRIPT_HEIGHTMAP);
+    //self->paths = lipth_paths_new (NULL, LIEXT_SCRIPT_HEIGHTMAP);
     
 	/* Register classes. */
 	liscr_script_set_userdata (program->script, LIEXT_SCRIPT_HEIGHTMAP, self);
@@ -70,24 +70,23 @@ LIExtModule* liext_heightmap_new (
 void liext_heightmap_free (
 	LIExtModule* self)
 {
-    lipth_paths_free(self->paths);
+    //lipth_paths_free(self->paths);
 	lisys_free (self);
 }
 
 int liext_heightmap_generate (
 	LIExtModule* self,
 	const char* file,
-    int        w,
-    int        h,
-    int        d,
     void**     data)
 {
     SDL_Surface* surface;
-    char*       location;
-        
+    char        location[100];
+
     if (!data) return -1;
     
-    location = lipth_paths_get_graphics (self->paths, file);
+    //location = lipth_paths_get_graphics (self->paths, file);
+    strcpy(location, "D:/Adventure/GH/data/godhead/graphics/");
+    strcat(location, file);
     printf("Location of graphics file: %s\n", location);
     
     surface = SDL_LoadBMP(location);
@@ -96,23 +95,19 @@ int liext_heightmap_generate (
         if (surface->format->BitsPerPixel != 24)
         {
             SDL_FreeSurface (surface);
-            printf("Failed, not 24 bpp");
-            return -1;
-        }
-        if (surface->w != w || surface->h != h || d < 1 || d > 256)
-        {
-			printf("Failed, wrong size");
+            printf("Failed, not 24 bpp\n");
             return -1;
         }
     }
     else
     {	
-		printf("Failed, no surface");
+		printf("Failed, no surface\n");
         return -1;
     }
     
+    /* TODO: stretch image (interpolation) */
     *data = surface;
-    printf("image loaded");
+    printf("Image loaded\n");
     return 0;
 }
 
@@ -128,8 +123,13 @@ int liext_heightmap_find (
     surface = (SDL_Surface*) data;
     pixels = (unsigned char*) (surface->pixels);
     
+    if (x < 0 || x >= surface->w || y < 0 || y >= surface->h)
+    {
+        //printf("Bad coordinate given, ignoring");
+        return -1;
+    }
+    
     /* We only get the R component for now */
-    /* TODO: stretch image (interpolation) */
     return pixels[ 3 * ((y * surface->w) + x) ];
 }
 
