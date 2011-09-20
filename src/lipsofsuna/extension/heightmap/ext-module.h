@@ -31,6 +31,7 @@ typedef struct _LIExtModule LIExtModule;
 struct _LIExtModule
 {
 	LIMaiProgram* program;
+    LIPthPaths*   paths;
 };
 
 LIExtModule* liext_heightmap_new (
@@ -41,7 +42,7 @@ void liext_heightmap_free (
 
 int liext_heightmap_generate (
 	LIExtModule* self,
-	char*      file,
+	const char* file,
     int        w,
     int        h,
     int        d,

@@ -57,6 +57,9 @@ LIExtModule* liext_heightmap_new (
 		return NULL;
 	self->program = program;
 
+    /* Allocate paths */
+    self->paths = lipth_paths_new (NULL, LIEXT_SCRIPT_HEIGHTMAP);
+    
 	/* Register classes. */
 	liscr_script_set_userdata (program->script, LIEXT_SCRIPT_HEIGHTMAP, self);
 	liext_script_heightmap (program->script);
@@ -67,22 +70,27 @@ LIExtModule* liext_heightmap_new (
 void liext_heightmap_free (
 	LIExtModule* self)
 {
+    lipth_paths_free(self->paths);
 	lisys_free (self);
 }
 
 int liext_heightmap_generate (
 	LIExtModule* self,
-	char*      file,
+	const char* file,
     int        w,
     int        h,
     int        d,
     void**     data)
 {
     SDL_Surface* surface;
-    
+    char*       location;
+        
     if (!data) return -1;
     
-    surface = SDL_LoadBMP("/home/ryan/ruinedport.bmp");
+    location = lipth_paths_get_graphics (self->paths, file);
+    printf("Location of graphics file: %s\n", location);
+    
+    surface = SDL_LoadBMP(location);
     if (surface)
     {
         if (surface->format->BitsPerPixel != 24)
@@ -114,7 +122,6 @@ int liext_heightmap_find (
     int        y,
     void*      data)
 {
-    int pos2, pos3;
     SDL_Surface* surface;
     unsigned char* pixels;
 
@@ -122,6 +129,7 @@ int liext_heightmap_find (
     pixels = (unsigned char*) (surface->pixels);
     
     /* We only get the R component for now */
+    /* TODO: stretch image (interpolation) */
     return pixels[ 3 * ((y * surface->w) + x) ];
 }
 
