@@ -52,6 +52,7 @@ extern LIMaiExtensionInfo liext_tiles_render_info;
 extern LIMaiExtensionInfo liext_vision_info;
 extern LIMaiExtensionInfo liext_watchdog_info;
 extern LIMaiExtensionInfo liext_widgets_info;
+extern LIMaiExtensionInfo liext_heightmap_info;
 
 /**
  * \brief Gets a built-in extension by name.
@@ -70,6 +71,7 @@ LIMaiExtensionInfo* limai_extension_get_builtin (
 	{
 		{ "ai", &liext_ai_info },
 		{ "animation", &liext_animation_info },
+		{ "heightmap", &liext_heightmap_info },
 		{ "camera", &liext_camera_info },
 		{ "config-file", &liext_config_file_info },
 		{ "database", &liext_database_info },

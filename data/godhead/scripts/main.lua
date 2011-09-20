@@ -51,7 +51,7 @@ require "common/serialize"
 require "common/sectors"
 require "common/species"
 require "common/voxel"
-
+require "system/heightmap"
 require "system/lobby"
 if Settings.server then
 require "system/password"

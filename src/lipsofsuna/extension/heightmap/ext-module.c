@@ -23,10 +23,12 @@
 /**
  * \addtogroup LIExt Extension
  * @{
- * \addtogroup LIExtNoise Noise
+ * \addtogroup LIExtHeightmap Heightmap
  * @{
  */
 
+#include "SDL.h"
+#include "SDL_main.h"
 #include "ext-module.h"
 #include <lipsofsuna/system.h>
 
@@ -37,7 +39,7 @@
 
 /*****************************************************************************/
 
-LIMaiExtensionInfo liext_noise_info =
+LIMaiExtensionInfo liext_heightmap_info =
 {
 	LIMAI_EXTENSION_VERSION, "Heightmap",
 	liext_heightmap_new,
@@ -120,7 +122,7 @@ int liext_heightmap_find (
 }
 
 void liext_heightmap_cleanup(
-    LIExtMode* self,
+    LIExtModule* self,
     void**     data)
 {
     SDL_FreeSurface(*data);

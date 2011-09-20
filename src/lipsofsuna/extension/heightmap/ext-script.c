@@ -26,7 +26,8 @@
  * \addtogroup LIExtHeightmap Heightmap
  * @{
  */
-
+#include "SDL.h"
+#include "SDL_main.h"
 #include "ext-module.h"
 
 #define MAX_TEXTURES    256
@@ -43,7 +44,7 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
 	LIExtModule* module;
     const char* map_file;
     const char* tiles_file;
-	LIMatVector pos;
+	LIMatVector posv;
 	LIMatVector size;
     int materials[MAX_TEXTURES];
     int* map_data;
@@ -52,6 +53,7 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
 	int max[3];
 	int sz[3];
     int pos[3];
+    int i;
     int value;
 	LIVoxVoxel* tmp;
 	LIVoxManager* voxels;
@@ -84,12 +86,12 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
     }
     
 	/* Calculate the size of the area. */
-	min[0] = pos.x;
-	min[1] = pos.y;
-	min[2] = pos.z;
-	max[0] = pos.x + size.x - 1;
-	max[1] = pos.y + size.y - 1;
-	max[2] = pos.z + size.z - 1;
+	min[0] = posv.x;
+	min[1] = posv.y;
+	min[2] = posv.z;
+	max[0] = posv.x + size.x - 1;
+	max[1] = posv.y + size.y - 1;
+	max[2] = posv.z + size.z - 1;
 	sz[0] = size.x;
 	sz[1] = size.y;
 	sz[2] = size.z;
@@ -97,7 +99,7 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
 	/* Batch copy terrain data. */
 	/* Reading all tiles at once is faster than operating on
 	   individual tiles since there are fewer sector lookups. */
-	tmp = lisys_calloc (size[0] * size[1] * size[2], sizeof (LIVoxVoxel));
+	tmp = lisys_calloc (sz[0] * sz[1] * sz[2], sizeof (LIVoxVoxel));
 	if (tmp == NULL)
     {
         liext_heightmap_cleanup(module, &map_data);
@@ -105,7 +107,7 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
 		return;
     }
 	livox_manager_copy_voxels (voxels, min[0], min[1], min[2],
-		size[0], size[1], size[2], tmp);
+		sz[0], sz[1], sz[2], tmp);
 
 	/* Apply heightmap to the copied tiles. */
 	for (pos[1] = min[1] ; pos[1] < max[1] ; pos[1]++)
@@ -128,7 +130,7 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
 
 /*****************************************************************************/
 
-void liext_script_noise (
+void liext_script_heightmap (
 	LIScrScript* self)
 {
 	liscr_script_insert_cfunc (self, LIEXT_SCRIPT_HEIGHTMAP, "heightmap_generate", Heightmap_heightmap_generate);

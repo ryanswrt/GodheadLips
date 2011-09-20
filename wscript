@@ -10,7 +10,7 @@ top = '.'
 out = '.build'
 
 CORE_DIRS = 'ai algorithm archive binding callback client engine extension font generator image main math model network particle paths physics render render/render21 render/render32 script server sound string system thread video voxel widget'
-EXTS_DIRS = 'ai animation camera config-file database file graphics lobby model-editing network noise object-physics object-render password physics reload render skeleton sound speech thread tiles tiles-physics tiles-render vision watchdog widgets'
+EXTS_DIRS = 'ai animation camera config-file database file graphics heightmap lobby model-editing network noise object-physics object-render password physics reload render skeleton sound speech thread tiles tiles-physics tiles-render vision watchdog widgets'
 
 def options(ctx):
 	ctx.tool_options('compiler_cc')

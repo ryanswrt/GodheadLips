@@ -1,4 +1,4 @@
-require "server/generator"
+--require "server/generator"
 
 Generator.Heightmap = Class()
 Generator.Heightmap.class_name = "Generator.Heightmap"

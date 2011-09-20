@@ -1,8 +1,8 @@
 Regionspec{
 	name = "Ruined Port",
 	categories = {"special"},
-	depth = {1000,1000},
+	depth = {10,10},
 	links = {"Portal of Lips", "Sanctuary", "Chara's Root Grove"},
 	pattern_name = "ruinedport",
-	position = {700,700},
+	position = {10,10},
 	spawn_point = {39,6,3}}

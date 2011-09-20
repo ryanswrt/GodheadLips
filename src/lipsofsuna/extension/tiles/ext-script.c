@@ -138,6 +138,7 @@ static void Voxel_fill_region (LIScrArgs* args)
 	livox_manager_paste_voxels (module->voxels,
 		(int) pos.x, (int) pos.y, (int) pos.z,
 		(int) size.x, (int) size.y, (int) size.z, tiles);
+
 	lisys_free (tiles);
 }
 
