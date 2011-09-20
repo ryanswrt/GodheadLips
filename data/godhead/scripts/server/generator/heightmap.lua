@@ -20,6 +20,7 @@ Generator.Heightmap.mats = {
 --- Generates a dungeon area.
 -- @param self Heightmap generator.
 Generator.Heightmap.generate = function(self)
+    print("generating")
     -- Fill the void
     Voxel:fill_region{point = self.pos, size = self.size, tile = 0}
     -- Create the ground for minimal height
@@ -27,5 +28,7 @@ Generator.Heightmap.generate = function(self)
     local sz = { self.size.x, self.size.y, 1 }
 	Voxel:fill_region{point = self.pos, size = sz, tile = m1.id}
     -- Load the actual terrain on top of it
-	Heightmap:heightmap_load(self.map, self.tiles, self.pos, self.size, self.mats)
+        Los.heightmap_generate(self.map, self.size[1], self.size[2], self.size[3], self.materials)
+
+	--Heightmap:heightmap_load(self.map, self.tiles, self.pos, self.size, self.mats)
 end
