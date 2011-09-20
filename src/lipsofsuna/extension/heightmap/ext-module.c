@@ -60,7 +60,7 @@ LIExtModule* liext_heightmap_new (
 	/* Register classes. */
 	liscr_script_set_userdata (program->script, LIEXT_SCRIPT_HEIGHTMAP, self);
 	liext_script_heightmap (program->script);
-
+	printf("heightmap initialized");
 	return self;
 }
 
@@ -82,25 +82,29 @@ int liext_heightmap_generate (
     
     if (!data) return -1;
     
-    surface = SDL_LoadBMP(file);
+    surface = SDL_LoadBMP("/home/ryan/ruinedport.bmp");
     if (surface)
     {
         if (surface->format->BitsPerPixel != 24)
         {
             SDL_FreeSurface (surface);
+            printf("Failed, not 24 bpp");
             return -1;
         }
         if (surface->w != w || surface->h != h || d < 1 || d > 256)
         {
+			printf("Failed, wrong size");
             return -1;
         }
     }
     else
-    {
+    {	
+		printf("Failed, no surface");
         return -1;
     }
     
     *data = surface;
+    printf("image loaded");
     return 0;
 }
 

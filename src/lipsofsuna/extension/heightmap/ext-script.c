@@ -58,6 +58,8 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
 	LIVoxVoxel* tmp;
 	LIVoxManager* voxels;
     
+    printf("starting heightmap genration");
+    
 	module = liscr_script_get_userdata (args->script, LIEXT_SCRIPT_HEIGHTMAP);
 	voxels = limai_program_find_component (module->program, "voxels");
 	if (voxels == NULL)

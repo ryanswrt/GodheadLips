@@ -12,7 +12,8 @@ Heightmap.class_name = "Heightmap"
 -- @param pos       Start position vector.</li>
 -- @param size      Size vector. The texture image must fit.</li>
 -- @param materials array of textures to pick from. They must be of equal size.</li>
-Heightmap.generate_terrain = function(self, map, tiles, pos, size, materials)
+Heightmap.heightmap_load = function(self, map, tiles, pos, size, materials)
+    print("blah")
     if materials ~= nil then
         Los.heightmap_generate(map, tiles, pos, size, materials)
     end

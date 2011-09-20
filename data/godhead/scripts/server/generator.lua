@@ -135,7 +135,7 @@ Generator.generate = function(self, args)
 	local sectorn = 0
 	local sectors = Program.sectors
 	for k in pairs(sectors) do
-		self.sectors[k] = "Town"
+		self.sectors[k] = "Heightmap"
 		sectorn = sectorn + 1
 	end
 	-- Create fractal terrain.
