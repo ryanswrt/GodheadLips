@@ -14,6 +14,8 @@ Heightmap.class_name = "Heightmap"
 -- @param materials array of mat ID to pick from.
 Heightmap.heightmap_load = function(self, map, tiles, pos, size, materials)
     if materials ~= nil then
-        Los.heightmap_generate(map, tiles, pos, size, materials)
+        local pos2 = Vector(pos.x / Voxel.tiles_per_line, pos.y / Voxel.tiles_per_line, pos.z / Voxel.tiles_per_line)
+        local size2 = Vector(size.x / Voxel.tiles_per_line, size.y / Voxel.tiles_per_line, size.z / Voxel.tiles_per_line)
+        Los.heightmap_generate(map, tiles, pos2.handle, size2.handle, materials)
     end
 end

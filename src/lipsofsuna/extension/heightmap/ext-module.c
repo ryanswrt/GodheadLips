@@ -85,7 +85,7 @@ int liext_heightmap_generate (
     if (!data) return -1;
     
     //location = lipth_paths_get_graphics (self->paths, file);
-    strcpy(location, "D:/Adventure/GH/data/godhead/graphics/");
+    strcpy(location, "./data/godhead/graphics/");
     strcat(location, file);
     printf("Location of graphics file: %s\n", location);
     

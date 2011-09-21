@@ -30,7 +30,7 @@
 #include "SDL_main.h"
 #include "ext-module.h"
 
-#define MAX_TEXTURES    256
+#define MAX_TEXTURES    9
 
 
 /**
@@ -59,7 +59,7 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
 	int min[3];
 	int max[3];
     int size[3];
-    int x,y,z, i, value;
+    int x,y,z, y2, i, value;
     
     printf("Starting heightmap generation\n");
     
@@ -97,9 +97,11 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
 	min[0] = posv.x;
 	min[1] = posv.y;
 	min[2] = posv.z;
-	max[0] = (int)posv.x + size[0] - 1;
-	max[1] = (int)posv.y + size[1] - 1;
-	max[2] = (int)posv.z + size[2] - 1;
+	max[0] = (int)posv.x + size[0];
+	max[1] = (int)posv.y + size[1];
+	max[2] = (int)posv.z + size[2];
+    
+    printf("Coords: %d %d %d / %d %d %d / %d %d %d\n", min[0], min[1], min[2], max[0], max[1], max[2], size[0], size[1], size[2]);
 
 	/* Batch copy terrain data. */
 	/* Reading all tiles at once is faster than operating on
@@ -115,26 +117,33 @@ static void Heightmap_heightmap_generate (LIScrArgs* args)
 		size[0], size[1], size[2], tmp);
 
 	/* Apply heightmap to the copied tiles. */
+    i = 0;
+	for (z = min[2] ; z < max[2] ; z++)
 	for (y = min[1] ; y < max[1] ; y++)
 	for (x = min[0] ; x < max[0] ; x++)
 	{
         //TODO: better resolution
-		z = 255 - liext_heightmap_find(module, x, y, map_data);
-        if (z != -1)
+		y2 = 255 - liext_heightmap_find(module, x, z, map_data);
+        printf("gen y: %d\n", y2);
+        if (y2 != -1 && y <= y2)
         {
-            value = liext_heightmap_find(module, x, y, tiles_data);
-            if (i != -1)
+            value = liext_heightmap_find(module, x, z, tiles_data);
+            if (value < 0 || value >= MAX_TEXTURES)
             {
-                i = (z * size[0] * size[1]) + (y * size[1]) + x;
-                livox_voxel_init (tmp + i, value);
+                value = 0;
             }
+            livox_voxel_init (tmp + i, 15 /* materials[value] */);
+            printf("voxel: %d %d\n", i, value);
         }
+        i++;
 	}
 
 	/* Batch write the copied tiles. */
 	livox_manager_paste_voxels (voxels, min[0], min[1], min[2],
 		size[0], size[1], size[2], tmp);
 	lisys_free (tmp);
+    
+    printf("Area has been successfully loaded from heightmap\n");
     
     liext_heightmap_cleanup(module, &map_data);
     liext_heightmap_cleanup(module, &tiles_data);
