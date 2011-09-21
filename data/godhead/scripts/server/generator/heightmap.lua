@@ -4,8 +4,7 @@ Generator.Heightmap = Class()
 Generator.Heightmap.class_name = "Generator.Heightmap"
 Generator.Heightmap.map = "island.bmp"
 Generator.Heightmap.tiles = "island_tiles.bmp"
-Generator.Heightmap.pos = { 10, 10, 0 }
-Generator.Heightmap.size = { 512, 512, 10 }
+Generator.Heightmap.offset = Vector (0, 0, 0) -- TODO
 Generator.Heightmap.mats = {
     Material:find{name = "basalt1"},        -- default  0x00
     Material:find{name = "magma1"},         -- vulcano  0x01
@@ -19,16 +18,24 @@ Generator.Heightmap.mats = {
 
 --- Generates a dungeon area.
 -- @param self Heightmap generator.
-Generator.Heightmap.generate = function(self)
-    print("generating")
-    -- Fill the void
-    Voxel:fill_region{point = self.pos, size = self.size, tile = 0}
-    -- Create the ground for minimal height
-	local m1 = Material:find{name = "granite1"}
-    local sz = { self.size.x, self.size.y, 1 }
-	Voxel:fill_region{point = self.pos, size = sz, tile = m1.id}
-    -- Load the actual terrain on top of it
-        Los.heightmap_generate(self.map, self.size[1], self.size[2], self.size[3], self.materials)
 
-	--Heightmap:heightmap_load(self.map, self.tiles, self.pos, self.size, self.mats)
+Generator.Heightmap.generate = function(self, pos, size)
+    print("Pos.y :" .. pos.y)
+    -- Fill the void
+    Voxel:fill_region{point = pos, size = size, tile = 0}
+    if pos.y < 120 then
+        -- Create the ground for minimal height
+        local m1 = Material:find{name = "granite1"}
+        local s1 = Vector( size.x, 120-pos.y, size.z )
+        if s1.y < Voxel.tiles_per_line then
+            s1.y = Voxel.tiles_per_line
+        end
+        if 120-pos.y > size.y then
+            s1.y = size.y
+        end
+        Voxel:fill_region{point = pos, size = s1, tile = m1.id}
+    else
+        -- TODO: add offset and scale (interpolation)
+        Heightmap:heightmap_load(self.map, self.tiles, pos, size, self.mats)
+    end
 end

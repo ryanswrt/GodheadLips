@@ -23,10 +23,10 @@ Generator.Main.generate = function(self, sector)
 	local pos = Generator.inst.inst:get_sector_offset(sector)
 	local t = self:get_sector(pos, size)
 	local g = Generator[t]
-	--Generator.Heightmap:generate()
 
 	if pos.y > 1007 then return end
 	if not g then
+        print("Void travel")
 		Voxel:fill_region{point = pos, size = size, tile = 0}
 	else
 		g:generate(pos, size)
@@ -54,13 +54,13 @@ Generator.Main.get_sector = function(self, pos, size)
 	-- using a specific town generator.
 	local s = Generator.inst.sectors[Generator.inst:get_sector_id(pos)]
 	if s then return s end
--- 	if not Generator.inst.inst:validate_rect(pos, size) then return "Town" end
--- 	-- Map boundaries.
--- 	-- The map is surrounded by special border sectors to prevent things from
--- 	-- falling outside of the map.
--- 	local min = 10 * Voxel.tiles_per_line
--- 	local max = 100 * Voxel.tiles_per_line
--- 	if pos.x < min or pos.y < min or pos.z < min or pos.x > max or pos.y > max or pos.z > max then return "Border" end
+ 	if not Generator.inst.inst:validate_rect(pos, size) then return "Heightmap" end
+ 	-- Map boundaries.
+ 	-- The map is surrounded by special border sectors to prevent things from
+ 	-- falling outside of the map.
+ 	local min = 10 * Voxel.tiles_per_line
+ 	local max = 100 * Voxel.tiles_per_line
+ 	if pos.x < min or pos.y < min or pos.z < min or pos.x > max or pos.y > max or pos.z > max then return "Border" end
 -- 	-- Random ruins.
 -- 	-- Ruins can appear anywhere so their generation is a bit special. They're
 -- 	-- generated if the random number falls inside one of a few gaps in the range.

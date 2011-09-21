@@ -43,9 +43,6 @@ void liext_heightmap_free (
 int liext_heightmap_generate (
 	LIExtModule* self,
 	const char* file,
-    int        w,
-    int        h,
-    int        d,
     void**     data);
 
 int liext_heightmap_find (
